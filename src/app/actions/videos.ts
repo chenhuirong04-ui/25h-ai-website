@@ -2,6 +2,7 @@
 
 import { createAdminClient, getSupabase } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
+import { parseYouTubeId } from "@/lib/youtube";
 
 export async function getPublicVideos() {
   const { data, error } = await getSupabase()
@@ -34,10 +35,10 @@ export async function getVideo(id: string) {
   return data;
 }
 
-async function uploadFile(file: File, folder: string): Promise<string> {
+async function uploadCover(file: File): Promise<string> {
   const admin = createAdminClient();
-  const ext = file.name.split(".").pop() || "bin";
-  const path = `${folder}/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+  const ext = file.name.split(".").pop() || "jpg";
+  const path = `covers/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
   const buf = Buffer.from(await file.arrayBuffer());
   const { error } = await admin.storage.from("media").upload(path, buf, {
     contentType: file.type,
@@ -51,19 +52,18 @@ async function uploadFile(file: File, folder: string): Promise<string> {
 export async function createVideo(formData: FormData) {
   const admin = createAdminClient();
   const cover = formData.get("cover") as File | null;
-  const video = formData.get("video") as File | null;
+  const youtubeUrl = (formData.get("youtube_url") as string) || "";
 
   let coverUrl = "";
-  let videoUrl = "";
-  if (cover && cover.size > 0) coverUrl = await uploadFile(cover, "covers");
-  if (video && video.size > 0) videoUrl = await uploadFile(video, "videos");
+  if (cover && cover.size > 0) coverUrl = await uploadCover(cover);
 
   const record = {
     title_zh: (formData.get("title_zh") as string) || "",
     title_en: (formData.get("title_en") as string) || "",
     description_zh: (formData.get("description_zh") as string) || "",
     description_en: (formData.get("description_en") as string) || "",
-    video_url: videoUrl,
+    youtube_url: youtubeUrl,
+    youtube_video_id: parseYouTubeId(youtubeUrl),
     cover_url: coverUrl,
     sort_order: parseInt((formData.get("sort_order") as string) || "0"),
     is_published: formData.get("is_published") === "true",
@@ -78,19 +78,20 @@ export async function createVideo(formData: FormData) {
 export async function updateVideo(id: string, formData: FormData) {
   const admin = createAdminClient();
   const cover = formData.get("cover") as File | null;
-  const video = formData.get("video") as File | null;
+  const youtubeUrl = (formData.get("youtube_url") as string) || "";
 
   const record: Record<string, unknown> = {
     title_zh: (formData.get("title_zh") as string) || "",
     title_en: (formData.get("title_en") as string) || "",
     description_zh: (formData.get("description_zh") as string) || "",
     description_en: (formData.get("description_en") as string) || "",
+    youtube_url: youtubeUrl,
+    youtube_video_id: parseYouTubeId(youtubeUrl),
     sort_order: parseInt((formData.get("sort_order") as string) || "0"),
     is_published: formData.get("is_published") === "true",
   };
 
-  if (cover && cover.size > 0) record.cover_url = await uploadFile(cover, "covers");
-  if (video && video.size > 0) record.video_url = await uploadFile(video, "videos");
+  if (cover && cover.size > 0) record.cover_url = await uploadCover(cover);
 
   const { error } = await admin.from("videos").update(record).eq("id", id);
   if (error) throw new Error(error.message);

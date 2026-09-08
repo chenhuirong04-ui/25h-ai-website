@@ -11,36 +11,30 @@ interface Video {
   title_en: string;
   description_zh: string;
   description_en: string;
-  video_url: string;
+  youtube_url: string;
+  youtube_video_id: string;
   cover_url: string;
 }
 
 function VideoCard({ video, lang, onPlay }: { video: Video; lang: string; onPlay: () => void }) {
   const title = lang === "zh" ? video.title_zh : video.title_en;
   const desc = lang === "zh" ? video.description_zh : video.description_en;
+  const thumb = video.cover_url || (video.youtube_video_id ? `https://img.youtube.com/vi/${video.youtube_video_id}/mqdefault.jpg` : null);
 
   return (
     <div className="rounded-2xl border border-border/30 bg-surface-card/40 overflow-hidden group hover:border-accent/20 transition-all">
-      {/* Cover */}
-      <div
-        className="relative aspect-video bg-gradient-to-br from-surface-light to-primary border-b border-border/20 overflow-hidden cursor-pointer"
-        onClick={onPlay}
-      >
-        {video.cover_url ? (
-          <img src={video.cover_url} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+      <div className="relative aspect-video bg-gradient-to-br from-surface-light to-primary border-b border-border/20 overflow-hidden cursor-pointer" onClick={onPlay}>
+        {thumb ? (
+          <img src={thumb} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center opacity-[0.03]" style={{ backgroundImage: "radial-gradient(circle, #00B4FF 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
         )}
-        {/* Play overlay */}
         <div className="absolute inset-0 flex items-center justify-center bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity">
           <div className="w-14 h-14 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center backdrop-blur-sm shadow-[0_0_20px_rgba(0,180,255,0.2)]">
-            <svg className="w-6 h-6 text-accent ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z" />
-            </svg>
+            <svg className="w-6 h-6 text-accent ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
           </div>
         </div>
       </div>
-      {/* Info */}
       <div className="p-5">
         <h3 className="text-lg font-semibold text-white group-hover:text-accent transition-colors">{title}</h3>
         {desc && <p className="mt-1.5 text-sm text-muted leading-relaxed">{desc}</p>}
@@ -49,23 +43,22 @@ function VideoCard({ video, lang, onPlay }: { video: Video; lang: string; onPlay
   );
 }
 
-function VideoModal({ video, lang, onClose }: { video: Video; lang: string; onClose: () => void }) {
-  const title = lang === "zh" ? video.title_zh : video.title_en;
+function YouTubeModal({ videoId, title, onClose }: { videoId: string; title: string; onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-primary/90 backdrop-blur-md p-4" onClick={onClose}>
       <div className="w-full max-w-4xl" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-lg font-semibold text-white">{title}</h3>
-          <button onClick={onClose} className="text-muted hover:text-white transition-colors text-xl">✕</button>
+          <h3 className="text-lg font-semibold text-white truncate pr-4">{title}</h3>
+          <button onClick={onClose} className="text-muted hover:text-white transition-colors text-xl shrink-0">✕</button>
         </div>
-        <div className="aspect-video rounded-xl overflow-hidden bg-black border border-border/30">
-          {video.video_url ? (
-            <video src={video.video_url} controls autoPlay className="w-full h-full" />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-muted text-sm">
-              No video file available
-            </div>
-          )}
+        <div className="aspect-video rounded-xl overflow-hidden border border-border/30 bg-black">
+          <iframe
+            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`}
+            title={title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="w-full h-full"
+          />
         </div>
       </div>
     </div>
@@ -96,7 +89,6 @@ export function BuiltFromOps() {
         <p className="mt-4 text-lg text-muted max-w-2xl">{b.subtitle}</p>
       </div>
 
-      {/* Dynamic videos from Supabase */}
       {loaded && videos.length > 0 ? (
         <>
           {/* Featured first video */}
@@ -112,8 +104,6 @@ export function BuiltFromOps() {
               </div>
             </div>
           </div>
-
-          {/* Remaining videos */}
           {videos.length > 1 && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {videos.slice(1).map((video) => (
@@ -123,7 +113,6 @@ export function BuiltFromOps() {
           )}
         </>
       ) : (
-        /* Static fallback when no videos */
         <>
           <div className="mb-8">
             <div className="grid grid-cols-1 md:grid-cols-5 gap-6 rounded-2xl border border-border/30 bg-surface-card/40 overflow-hidden">
@@ -164,8 +153,13 @@ export function BuiltFromOps() {
         </>
       )}
 
-      {/* Video Modal */}
-      {playing && <VideoModal video={playing} lang={lang} onClose={() => setPlaying(null)} />}
+      {playing && playing.youtube_video_id && (
+        <YouTubeModal
+          videoId={playing.youtube_video_id}
+          title={lang === "zh" ? playing.title_zh : playing.title_en}
+          onClose={() => setPlaying(null)}
+        />
+      )}
     </Section>
   );
 }
