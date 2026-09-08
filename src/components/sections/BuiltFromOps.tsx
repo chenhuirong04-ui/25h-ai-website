@@ -73,7 +73,7 @@ export function BuiltFromOps() {
   const [playing, setPlaying] = useState<Video | null>(null);
 
   useEffect(() => {
-    getPublicVideos().then((data) => {
+    getPublicVideos("our_work").then((data) => {
       setVideos(data as Video[]);
       setLoaded(true);
     });

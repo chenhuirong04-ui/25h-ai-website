@@ -4,12 +4,13 @@ import { createAdminClient, getSupabase } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
 import { parseYouTubeId } from "@/lib/youtube";
 
-export async function getPublicVideos() {
-  const { data, error } = await getSupabase()
+export async function getPublicVideos(section?: string) {
+  let query = getSupabase()
     .from("videos")
     .select("*")
-    .eq("is_published", true)
-    .order("sort_order", { ascending: true });
+    .eq("is_published", true);
+  if (section) query = query.eq("section", section);
+  const { data, error } = await query.order("position", { ascending: true });
   if (error) return [];
   return data || [];
 }
@@ -66,6 +67,8 @@ export async function createVideo(formData: FormData) {
     youtube_video_id: parseYouTubeId(youtubeUrl),
     cover_url: coverUrl,
     sort_order: parseInt((formData.get("sort_order") as string) || "0"),
+    section: (formData.get("section") as string) || "our_work",
+    position: parseInt((formData.get("position") as string) || "0"),
     is_published: formData.get("is_published") === "true",
   };
 
@@ -88,6 +91,8 @@ export async function updateVideo(id: string, formData: FormData) {
     youtube_url: youtubeUrl,
     youtube_video_id: parseYouTubeId(youtubeUrl),
     sort_order: parseInt((formData.get("sort_order") as string) || "0"),
+    section: (formData.get("section") as string) || "our_work",
+    position: parseInt((formData.get("position") as string) || "0"),
     is_published: formData.get("is_published") === "true",
   };
 

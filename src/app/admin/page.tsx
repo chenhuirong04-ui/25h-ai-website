@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { getSupabase } from "@/lib/supabase";
 import { parseYouTubeId } from "@/lib/youtube";
+import { VIDEO_SECTIONS, sectionLabel } from "@/lib/videoSections";
 import {
   getAllVideos,
   createVideo,
@@ -22,6 +23,8 @@ interface Video {
   youtube_video_id: string;
   cover_url: string;
   sort_order: number;
+  section: string;
+  position: number;
   is_published: boolean;
   created_at: string;
   updated_at: string;
@@ -194,6 +197,10 @@ export default function AdminDashboard() {
                   </div>
                 </div>
 
+                <div className="shrink-0 text-xs text-accent font-medium whitespace-nowrap">
+                  {sectionLabel(video.section)} · 第 {video.position} 位
+                </div>
+
                 <div className="flex items-center gap-2 shrink-0">
                   <button onClick={() => { setEditing(video); setShowForm(true); setError(""); }} className="px-3 py-1.5 rounded-lg text-xs font-medium border border-border/30 text-muted hover:text-white hover:border-accent/30 transition-colors">编辑</button>
                   <button onClick={() => handleAction(() => togglePublish(video.id))} disabled={isPending} className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${video.is_published ? "border-orange-500/20 text-orange-400 hover:bg-orange-500/10" : "border-green-500/20 text-green-400 hover:bg-green-500/10"} disabled:opacity-50`}>
@@ -322,6 +329,26 @@ function VideoForm({ video, onClose, onSaved }: { video: Video | null; onClose: 
             <div>
               <label className="block text-xs font-medium text-muted-dark mb-1.5">描述（英文）</label>
               <textarea name="description_en" defaultValue={video?.description_en} rows={2} className="w-full px-3 py-2 rounded-lg bg-surface-card border border-border/40 text-text text-sm focus:outline-none focus:border-accent/50 resize-none" />
+            </div>
+          </div>
+
+          {/* Frontend placement */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-medium text-muted-dark mb-1.5">展示区域</label>
+              <select
+                name="section"
+                defaultValue={video?.section || "our_work"}
+                className="w-full px-3 py-2 rounded-lg bg-surface-card border border-border/40 text-text text-sm focus:outline-none focus:border-accent/50"
+              >
+                {VIDEO_SECTIONS.map((s) => (
+                  <option key={s.value} value={s.value}>{s.label}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-muted-dark mb-1.5">展示顺序（区域内，数字越小越靠前）</label>
+              <input name="position" type="number" defaultValue={video?.position ?? 1} className="w-full px-3 py-2 rounded-lg bg-surface-card border border-border/40 text-text text-sm focus:outline-none focus:border-accent/50" />
             </div>
           </div>
 
