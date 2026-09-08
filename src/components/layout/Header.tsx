@@ -2,11 +2,15 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useLang } from "@/i18n/hook";
 
 export function Header() {
   const { t, lang, toggle } = useLang();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
+
+  if (pathname?.startsWith("/admin")) return null;
 
   const navItems = [
     { label: t.header.navCapabilities, href: "#capabilities" },

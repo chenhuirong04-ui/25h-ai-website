@@ -27,12 +27,16 @@ interface Video {
   updated_at: string;
 }
 
+type Filter = "all" | "published" | "draft";
+
 export default function AdminDashboard() {
   const [videos, setVideos] = useState<Video[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<Video | null>(null);
   const [error, setError] = useState("");
+  const [filter, setFilter] = useState<Filter>("all");
+  const [adminEmail, setAdminEmail] = useState("");
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
@@ -41,7 +45,7 @@ export default function AdminDashboard() {
       const data = await getAllVideos();
       setVideos(data as Video[]);
     } catch {
-      setError("Failed to load videos");
+      setError("视频加载失败");
     } finally {
       setLoading(false);
     }
@@ -52,6 +56,7 @@ export default function AdminDashboard() {
       if (!user) {
         router.push("/admin/login");
       } else {
+        setAdminEmail(user.email || "");
         fetchVideos();
       }
     });
@@ -68,34 +73,49 @@ export default function AdminDashboard() {
         await action();
         fetchVideos();
       } catch (e: unknown) {
-        setError(e instanceof Error ? e.message : "Action failed");
+        setError(e instanceof Error ? e.message : "操作失败");
       }
     });
   }
 
+  const filteredVideos = videos.filter((v) => {
+    if (filter === "published") return v.is_published;
+    if (filter === "draft") return !v.is_published;
+    return true;
+  });
+
+  const publishedCount = videos.filter((v) => v.is_published).length;
+  const draftCount = videos.length - publishedCount;
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-primary">
-        <div className="text-muted">Loading...</div>
+        <div className="text-muted">加载中...</div>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-primary">
+      {/* Independent admin top bar */}
       <div className="border-b border-border/30 bg-surface/50 backdrop-blur-sm sticky top-0 z-30">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <h1 className="text-lg font-bold text-white">
-            <span className="text-accent">25H</span> Admin — Our Work
+            <span className="text-accent">25H AI</span> Admin
           </h1>
-          <div className="flex items-center gap-3">
-            <a href="/" className="text-xs text-muted hover:text-accent transition-colors">← Back to Site</a>
-            <button onClick={handleLogout} className="text-xs text-muted-dark hover:text-red-400 transition-colors">Logout</button>
+          <div className="flex items-center gap-4">
+            {adminEmail && (
+              <span className="text-xs text-muted-dark hidden sm:inline">{adminEmail}</span>
+            )}
+            <a href="/" className="text-xs text-muted hover:text-accent transition-colors">查看官网</a>
+            <button onClick={handleLogout} className="text-xs text-muted-dark hover:text-red-400 transition-colors">退出登录</button>
           </div>
         </div>
       </div>
 
       <div className="max-w-6xl mx-auto px-4 py-6">
+        <h2 className="text-xl font-bold text-white mb-4">成果视频管理</h2>
+
         {error && (
           <div className="mb-4 px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/20 text-sm text-red-400 flex items-center justify-between">
             <span>{error}</span>
@@ -103,25 +123,41 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        <div className="flex items-center justify-between mb-6">
-          <span className="text-sm text-muted">
-            {videos.length} video{videos.length !== 1 ? "s" : ""} · {videos.filter((v) => v.is_published).length} published
-          </span>
+        <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
+          <div className="flex items-center gap-1 p-1 rounded-lg bg-surface-card/40 border border-border/30">
+            {([
+              { key: "all", label: `全部视频 (${videos.length})` },
+              { key: "published", label: `已发布 (${publishedCount})` },
+              { key: "draft", label: `草稿 (${draftCount})` },
+            ] as { key: Filter; label: string }[]).map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setFilter(tab.key)}
+                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                  filter === tab.key
+                    ? "bg-accent text-primary"
+                    : "text-muted hover:text-white"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
           <button
             onClick={() => { setEditing(null); setShowForm(true); setError(""); }}
             className="px-4 py-2 rounded-lg bg-accent text-primary text-sm font-medium hover:bg-accent-light transition-colors shadow-[0_0_12px_rgba(0,180,255,0.2)]"
           >
-            + New Video
+            + 新增视频
           </button>
         </div>
 
-        {videos.length === 0 ? (
+        {filteredVideos.length === 0 ? (
           <div className="text-center py-20 border border-dashed border-border/30 rounded-2xl">
-            <p className="text-muted text-sm">No videos yet. Click &quot;+ New Video&quot; to add one.</p>
+            <p className="text-muted text-sm">暂无视频，点击"+ 新增视频"添加。</p>
           </div>
         ) : (
           <div className="space-y-3">
-            {videos.map((video) => (
+            {filteredVideos.map((video) => (
               <div key={video.id} className="flex items-center gap-4 p-4 rounded-xl border border-border/30 bg-surface-card/40 hover:border-border-light/40 transition-colors">
                 <div className="w-28 h-16 rounded-lg bg-primary/60 border border-border/20 overflow-hidden shrink-0 flex items-center justify-center">
                   {video.youtube_video_id ? (
@@ -135,23 +171,35 @@ export default function AdminDashboard() {
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <h3 className="text-sm font-medium text-white truncate">{video.title_zh || video.title_en || "Untitled"}</h3>
-                    <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${video.is_published ? "bg-green-400/10 text-green-400" : "bg-orange-400/10 text-orange-400"}`}>
-                      {video.is_published ? "Published" : "Draft"}
+                    <h3 className="text-sm font-medium text-white truncate">{video.title_zh || "（无中文标题）"}</h3>
+                    <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium shrink-0 ${video.is_published ? "bg-green-400/10 text-green-400" : "bg-orange-400/10 text-orange-400"}`}>
+                      {video.is_published ? "已发布" : "草稿"}
                     </span>
                   </div>
-                  <p className="text-xs text-muted mt-0.5 truncate">{video.title_en || "No English title"}</p>
-                  <p className="text-[10px] text-muted-dark mt-0.5">
-                    Order: {video.sort_order} · YT: {video.youtube_video_id || "none"} · Updated: {new Date(video.updated_at).toLocaleDateString()}
-                  </p>
+                  <p className="text-xs text-muted mt-0.5 truncate">{video.title_en || "（无英文标题）"}</p>
+                  <div className="flex items-center gap-3 mt-0.5">
+                    {video.youtube_url ? (
+                      <a
+                        href={video.youtube_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[10px] text-accent hover:text-accent-light truncate max-w-[220px]"
+                      >
+                        {video.youtube_url}
+                      </a>
+                    ) : (
+                      <span className="text-[10px] text-muted-dark">无 YouTube 链接</span>
+                    )}
+                    <span className="text-[10px] text-muted-dark shrink-0">排序: {video.sort_order}</span>
+                  </div>
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
-                  <button onClick={() => { setEditing(video); setShowForm(true); setError(""); }} className="px-3 py-1.5 rounded-lg text-xs font-medium border border-border/30 text-muted hover:text-white hover:border-accent/30 transition-colors">Edit</button>
+                  <button onClick={() => { setEditing(video); setShowForm(true); setError(""); }} className="px-3 py-1.5 rounded-lg text-xs font-medium border border-border/30 text-muted hover:text-white hover:border-accent/30 transition-colors">编辑</button>
                   <button onClick={() => handleAction(() => togglePublish(video.id))} disabled={isPending} className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${video.is_published ? "border-orange-500/20 text-orange-400 hover:bg-orange-500/10" : "border-green-500/20 text-green-400 hover:bg-green-500/10"} disabled:opacity-50`}>
-                    {video.is_published ? "Unpublish" : "Publish"}
+                    {video.is_published ? "下架" : "发布"}
                   </button>
-                  <button onClick={() => { if (confirm("Delete this video?")) handleAction(() => deleteVideo(video.id)); }} disabled={isPending} className="px-3 py-1.5 rounded-lg text-xs font-medium border border-red-500/20 text-red-400 hover:bg-red-500/10 transition-colors disabled:opacity-50">Delete</button>
+                  <button onClick={() => { if (confirm("确认删除该视频？")) handleAction(() => deleteVideo(video.id)); }} disabled={isPending} className="px-3 py-1.5 rounded-lg text-xs font-medium border border-red-500/20 text-red-400 hover:bg-red-500/10 transition-colors disabled:opacity-50">删除</button>
                 </div>
               </div>
             ))}
@@ -198,7 +246,7 @@ function VideoForm({ video, onClose, onSaved }: { video: Video | null; onClose: 
       }
       onSaved();
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Save failed");
+      setError(err instanceof Error ? err.message : "保存失败");
     } finally {
       setSaving(false);
     }
@@ -208,7 +256,7 @@ function VideoForm({ video, onClose, onSaved }: { video: Video | null; onClose: 
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-primary/80 backdrop-blur-sm p-4">
       <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border border-border/40 bg-surface p-6 md:p-8 shadow-2xl">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-white">{isEdit ? "Edit Video" : "New Video"}</h2>
+          <h2 className="text-xl font-bold text-white">{isEdit ? "编辑视频" : "新增视频"}</h2>
           <button onClick={onClose} className="text-muted hover:text-white transition-colors text-lg">✕</button>
         </div>
 
@@ -219,7 +267,7 @@ function VideoForm({ video, onClose, onSaved }: { video: Video | null; onClose: 
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* YouTube URL */}
           <div>
-            <label className="block text-xs font-medium text-muted-dark mb-1.5">YouTube URL</label>
+            <label className="block text-xs font-medium text-muted-dark mb-1.5">YouTube 链接</label>
             <input
               type="url"
               value={ytUrl}
@@ -237,7 +285,7 @@ function VideoForm({ video, onClose, onSaved }: { video: Video | null; onClose: 
 
           {/* Cover Image */}
           <div>
-            <label className="block text-xs font-medium text-muted-dark mb-1.5">Cover Image (optional — YouTube thumbnail used if empty)</label>
+            <label className="block text-xs font-medium text-muted-dark mb-1.5">封面图片（选填，留空则使用 YouTube 缩略图）</label>
             {coverPreview && (
               <img src={coverPreview} alt="Preview" className="mb-2 w-40 h-24 rounded-lg object-cover border border-border/30" />
             )}
@@ -256,11 +304,11 @@ function VideoForm({ video, onClose, onSaved }: { video: Video | null; onClose: 
           {/* Titles */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium text-muted-dark mb-1.5">Title (中文)</label>
+              <label className="block text-xs font-medium text-muted-dark mb-1.5">标题（中文）</label>
               <input name="title_zh" defaultValue={video?.title_zh} className="w-full px-3 py-2 rounded-lg bg-surface-card border border-border/40 text-text text-sm focus:outline-none focus:border-accent/50" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-muted-dark mb-1.5">Title (English)</label>
+              <label className="block text-xs font-medium text-muted-dark mb-1.5">标题（英文）</label>
               <input name="title_en" defaultValue={video?.title_en} className="w-full px-3 py-2 rounded-lg bg-surface-card border border-border/40 text-text text-sm focus:outline-none focus:border-accent/50" />
             </div>
           </div>
@@ -268,11 +316,11 @@ function VideoForm({ video, onClose, onSaved }: { video: Video | null; onClose: 
           {/* Descriptions */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium text-muted-dark mb-1.5">Description (中文)</label>
+              <label className="block text-xs font-medium text-muted-dark mb-1.5">描述（中文）</label>
               <textarea name="description_zh" defaultValue={video?.description_zh} rows={2} className="w-full px-3 py-2 rounded-lg bg-surface-card border border-border/40 text-text text-sm focus:outline-none focus:border-accent/50 resize-none" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-muted-dark mb-1.5">Description (English)</label>
+              <label className="block text-xs font-medium text-muted-dark mb-1.5">描述（英文）</label>
               <textarea name="description_en" defaultValue={video?.description_en} rows={2} className="w-full px-3 py-2 rounded-lg bg-surface-card border border-border/40 text-text text-sm focus:outline-none focus:border-accent/50 resize-none" />
             </div>
           </div>
@@ -280,19 +328,19 @@ function VideoForm({ video, onClose, onSaved }: { video: Video | null; onClose: 
           {/* Sort + Published */}
           <div className="flex items-center gap-6">
             <div>
-              <label className="block text-xs font-medium text-muted-dark mb-1.5">Sort Order</label>
+              <label className="block text-xs font-medium text-muted-dark mb-1.5">排序</label>
               <input name="sort_order" type="number" defaultValue={video?.sort_order ?? 0} className="w-24 px-3 py-2 rounded-lg bg-surface-card border border-border/40 text-text text-sm focus:outline-none focus:border-accent/50" />
             </div>
             <label className="flex items-center gap-2 mt-5 cursor-pointer">
               <input name="is_published" type="checkbox" defaultChecked={video?.is_published} value="true" className="w-4 h-4 rounded accent-accent" />
-              <span className="text-sm text-text">Published</span>
+              <span className="text-sm text-text">已发布</span>
             </label>
           </div>
 
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-border/20">
-            <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg text-sm font-medium border border-border/30 text-muted hover:text-white transition-colors">Cancel</button>
+            <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg text-sm font-medium border border-border/30 text-muted hover:text-white transition-colors">取消</button>
             <button type="submit" disabled={saving} className="px-6 py-2 rounded-lg bg-accent text-primary text-sm font-medium hover:bg-accent-light transition-colors disabled:opacity-50 shadow-[0_0_12px_rgba(0,180,255,0.2)]">
-              {saving ? "Saving..." : isEdit ? "Update" : "Create"}
+              {saving ? "保存中..." : isEdit ? "更新" : "创建"}
             </button>
           </div>
         </form>

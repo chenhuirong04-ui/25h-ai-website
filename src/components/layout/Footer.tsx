@@ -1,10 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useLang } from "@/i18n/hook";
 
 export function Footer() {
   const { t } = useLang();
+  const pathname = usePathname();
+
+  if (pathname?.startsWith("/admin")) return null;
 
   const navLinks = [
     { label: t.footer.navCapabilities, href: "#capabilities" },
