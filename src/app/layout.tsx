@@ -45,6 +45,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
       <body className="min-h-screen flex flex-col bg-primary font-sans">
+        <link
+          rel="preload"
+          as="image"
+          href="/images/contact/wechat-qr-web.png"
+          fetchPriority="high"
+        />
         <Providers>
           <Header />
           <main className="flex-1">{children}</main>

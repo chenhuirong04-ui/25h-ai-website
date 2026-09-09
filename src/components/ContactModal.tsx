@@ -27,10 +27,16 @@ function WeChatQR() {
 
   return (
     <div className="w-32 rounded-lg overflow-hidden border border-border/20 shadow-lg shadow-black/20 bg-white">
-      {/* Full source image shown as-is (object-contain), no crop/redraw — decorative border/shadow only */}
+      {/* Full source image shown as-is (object-contain), no crop/redraw — decorative border/shadow only.
+          Lightweight web-optimized copy (640x990, ~169KB) of the original wechat-qr.png (955KB) —
+          same content, just resampled + compressed for fast first paint; preloaded in the root layout. */}
       <img
-        src="/images/contact/wechat-qr.png"
+        src="/images/contact/wechat-qr-web.png"
         alt="WeChat QR"
+        width={640}
+        height={990}
+        loading="eager"
+        decoding="async"
         className="w-full h-auto block object-contain"
         onError={() => setError(true)}
       />
