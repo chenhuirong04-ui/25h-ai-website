@@ -4,6 +4,15 @@ export const translations = {
   zh: {
     ctaWhatsapp:
       "https://wa.me/971585566809?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E4%BA%86%E8%A7%A3%E4%B8%80%E4%B8%8B%2025H%20AI%20%E4%BC%81%E4%B8%9A%E8%BF%90%E8%90%A5%E4%B8%8EAI%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E3%80%82",
+    contactModal: {
+      title: "联系我们",
+      international: "海外联系",
+      china: "中国联系",
+      whatsapp: "WhatsApp",
+      wechat: "微信",
+      wechatIdLabel: "微信号：",
+      wechatHint: "扫码或搜索微信号添加",
+    },
     header: {
       navCapabilities: "核心能力",
       navProcess: "交付流程",
@@ -290,6 +299,15 @@ export const translations = {
   en: {
     ctaWhatsapp:
       "https://wa.me/971585566809?text=Hello%2C%20I%E2%80%99d%20like%20to%20learn%20more%20about%2025H%20AI.",
+    contactModal: {
+      title: "Contact Us",
+      international: "International Contact",
+      china: "China Contact",
+      whatsapp: "WhatsApp",
+      wechat: "WeChat",
+      wechatIdLabel: "WeChat ID: ",
+      wechatHint: "Scan the QR code or search the WeChat ID",
+    },
     header: {
       navCapabilities: "What We Do",
       navProcess: "Process",
