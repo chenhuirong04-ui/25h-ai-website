@@ -114,15 +114,15 @@ export function Hero() {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
                       {t.hero.dashMetrics.map((m) => (
                         <div key={m.label} className="bg-surface-card rounded-lg p-3 border border-border/40">
-                          <p className="text-[9px] md:text-[10px] text-muted-dark uppercase tracking-wider">{m.label}</p>
-                          <p className="text-base md:text-lg font-bold mt-0.5 text-text">{m.value}</p>
+                          <p className="laptop-text-12 text-[9px] md:text-[10px] text-muted-dark uppercase tracking-wider">{m.label}</p>
+                          <p className="laptop-text-19 text-base md:text-lg font-bold mt-0.5 text-text">{m.value}</p>
                         </div>
                       ))}
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       <div className="md:col-span-2 bg-surface-card rounded-lg p-3 border border-border/40">
-                        <p className="text-[10px] font-medium text-muted-dark mb-2">{t.hero.dashOpsChart}</p>
+                        <p className="laptop-text-13 text-[10px] font-medium text-muted-dark mb-2">{t.hero.dashOpsChart}</p>
                         <div className="hero-dashboard-chart flex items-end gap-1.5 h-24 md:h-28">
                           {[35, 58, 42, 75, 50, 88, 65, 80, 55, 72, 48, 82].map((h, i) => (
                             <div key={i} className="flex-1 rounded-sm" style={{ height: `${h}%`, backgroundColor: i === 7 || i === 11 ? "#00B4FF" : "rgba(0,180,255,0.3)" }} />
@@ -130,7 +130,7 @@ export function Hero() {
                         </div>
                       </div>
                       <div className="bg-surface-card rounded-lg p-3 border border-border/40">
-                        <p className="text-[10px] font-medium text-muted-dark mb-2">{t.hero.dashAiTitle}</p>
+                        <p className="laptop-text-13 text-[10px] font-medium text-muted-dark mb-2">{t.hero.dashAiTitle}</p>
                         <div className="space-y-2.5">
                           {t.hero.dashAiItems.map((item) => (
                             <div key={item.label}>
@@ -148,11 +148,11 @@ export function Hero() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       <div className="hero-dashboard-secondary bg-surface-card rounded-lg p-3 border border-border/40">
-                        <p className="text-[10px] font-medium text-muted-dark mb-2">{t.hero.dashTasksTitle}</p>
+                        <p className="laptop-text-13 text-[10px] font-medium text-muted-dark mb-2">{t.hero.dashTasksTitle}</p>
                         <div className="space-y-2">
                           {t.hero.dashTasks.map((task, i) => (
                             <div key={i} className="flex items-center justify-between gap-2">
-                              <span className="text-[10px] text-text truncate">{task.label}</span>
+                              <span className="laptop-text-13 text-[10px] text-text truncate">{task.label}</span>
                               <span className={`text-[9px] px-1.5 py-0.5 rounded shrink-0 ${i === 2 ? "bg-highlight/10 text-highlight" : i === 3 ? "bg-accent/10 text-accent" : i === 1 ? "bg-tech/10 text-tech" : "bg-accent/10 text-accent"}`}>
                                 {task.tag}
                               </span>
@@ -161,13 +161,13 @@ export function Hero() {
                         </div>
                       </div>
                       <div className="hero-dashboard-workflow bg-surface-card rounded-lg p-3 border border-border/40">
-                        <p className="text-[10px] font-medium text-muted-dark mb-2">{t.hero.dashWorkflowTitle}</p>
+                        <p className="laptop-text-13 text-[10px] font-medium text-muted-dark mb-2">{t.hero.dashWorkflowTitle}</p>
                         <div className="space-y-2">
                           {t.hero.dashWorkflow.map((s, i) => (
                             <div key={i} className="flex items-center justify-between">
                               <div className="flex items-center gap-2">
                                 <span className={`w-1.5 h-1.5 rounded-full ${i === 0 ? "bg-accent" : i === 1 ? "bg-tech" : i === 2 ? "bg-green-500" : "bg-highlight"}`} />
-                                <span className="text-[10px] text-muted">{s.label}</span>
+                                <span className="laptop-text-13 text-[10px] text-muted">{s.label}</span>
                               </div>
                               <span className="text-[10px] font-semibold text-text">{s.count}</span>
                             </div>

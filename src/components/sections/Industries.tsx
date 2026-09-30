@@ -21,10 +21,10 @@ function IndustryCard({ item, featured }: { item: any; featured?: boolean }) {
       <div className="industry-card-header px-5 py-4 border-b border-border/20 bg-accent/[0.02]">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className={`font-semibold text-white ${featured ? "text-lg" : "text-base"}`}>
+            <h3 className={`font-semibold text-white ${featured ? "text-lg" : "laptop-text-17 text-base"}`}>
               {item.name}
             </h3>
-            <p className="text-xs text-muted mt-0.5">{item.desc}</p>
+            <p className="laptop-text-13 text-xs text-muted mt-0.5">{item.desc}</p>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse-dot" />
@@ -38,8 +38,8 @@ function IndustryCard({ item, featured }: { item: any; featured?: boolean }) {
         <div className="grid grid-cols-3 gap-2">
           {item.metrics.map((m: any, i: number) => (
             <div key={i} className="industry-metric bg-primary/60 rounded-lg p-2.5 border border-border/20">
-              <p className="text-[9px] text-muted-dark uppercase tracking-wider">{m.label}</p>
-              <p className={`text-base font-bold mt-0.5 ${m.alert ? "text-red-400" : "text-text"}`}>
+              <p className="laptop-text-12 text-[9px] text-muted-dark uppercase tracking-wider">{m.label}</p>
+              <p className={`laptop-text-17 text-base font-bold mt-0.5 ${m.alert ? "text-red-400" : "text-text"}`}>
                 {m.value}
               </p>
               {m.alert && (
@@ -62,9 +62,9 @@ function IndustryCard({ item, featured }: { item: any; featured?: boolean }) {
               <div key={i} className="industry-status flex items-center justify-between py-1">
                 <div className="flex items-center gap-2">
                   <span className={`w-1.5 h-1.5 rounded-full ${c.dot}`} />
-                  <span className="text-[11px] text-muted">{s.label}</span>
+                  <span className="laptop-text-13 text-[11px] text-muted">{s.label}</span>
                 </div>
-                <span className={`text-[11px] font-medium ${c.text} ${c.bg} px-1.5 py-0.5 rounded`}>
+                <span className={`laptop-text-13 text-[11px] font-medium ${c.text} ${c.bg} px-1.5 py-0.5 rounded`}>
                   {s.status}
                 </span>
               </div>

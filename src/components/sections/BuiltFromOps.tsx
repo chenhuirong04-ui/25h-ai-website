@@ -37,7 +37,7 @@ function VideoCard({ video, lang, onPlay }: { video: Video; lang: string; onPlay
       </div>
       <div className="p-5">
         <h3 className="text-lg font-semibold text-white group-hover:text-accent transition-colors">{title}</h3>
-        {desc && <p className="mt-1.5 text-sm text-muted leading-relaxed">{desc}</p>}
+        {desc && <p className="laptop-text-15 mt-1.5 text-sm text-muted leading-relaxed">{desc}</p>}
       </div>
     </div>
   );
@@ -98,7 +98,7 @@ export function BuiltFromOps() {
                 <VideoCard video={videos[0]} lang={lang} onPlay={() => setPlaying(videos[0])} />
               </div>
               <div className="md:col-span-2 p-6 md:p-8 flex flex-col justify-center">
-                <span className="text-xs font-medium text-accent uppercase tracking-wider">{b.featured.tag}</span>
+                <span className="laptop-text-13 text-xs font-medium text-accent uppercase tracking-wider">{b.featured.tag}</span>
                 <h3 className="mt-3 text-2xl font-bold text-white">{b.featured.name}</h3>
                 <p className="mt-3 text-muted leading-relaxed">{b.featured.desc}</p>
               </div>
@@ -124,7 +124,7 @@ export function BuiltFromOps() {
                 <span className="absolute bottom-3 left-3 text-[10px] text-muted-dark bg-primary/60 px-2 py-0.5 rounded">{b.play}</span>
               </div>
               <div className="md:col-span-2 p-6 md:p-8 flex flex-col justify-center">
-                <span className="text-xs font-medium text-accent uppercase tracking-wider">{b.featured.tag}</span>
+                <span className="laptop-text-13 text-xs font-medium text-accent uppercase tracking-wider">{b.featured.tag}</span>
                 <h3 className="mt-3 text-2xl font-bold text-white">{b.featured.name}</h3>
                 <p className="mt-3 text-muted leading-relaxed">{b.featured.desc}</p>
               </div>
@@ -140,9 +140,9 @@ export function BuiltFromOps() {
                   </div>
                 </div>
                 <div className="p-5">
-                  <span className="text-[10px] font-medium text-accent uppercase tracking-wider">{sys.tag}</span>
+                  <span className="laptop-text-11 text-[10px] font-medium text-accent uppercase tracking-wider">{sys.tag}</span>
                   <h3 className="mt-2 text-lg font-semibold text-white group-hover:text-accent transition-colors">{sys.name}</h3>
-                  <p className="mt-1 text-sm text-muted">{sys.desc}</p>
+                  <p className="laptop-text-15 mt-1 text-sm text-muted">{sys.desc}</p>
                 </div>
               </div>
             ))}

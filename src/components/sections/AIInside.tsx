@@ -38,7 +38,7 @@ export function AIInside() {
             </svg>
           </div>
           <div>
-            <p className="text-sm font-semibold text-white">{ai.layer}</p>
+            <p className="laptop-text-15 text-sm font-semibold text-white">{ai.layer}</p>
             <p className="text-[10px] text-muted-dark">{ai.layerSub}</p>
           </div>
           <span className="ml-auto text-[11px] text-accent font-medium bg-accent/10 px-2.5 py-0.5 rounded-full border border-accent/20 flex items-center gap-1.5">
@@ -49,11 +49,11 @@ export function AIInside() {
 
         {/* Pipeline */}
         <div className="ai-pipeline p-5 md:p-6">
-          <p className="text-[10px] text-muted-dark uppercase tracking-wider mb-3">{ai.pipeline}</p>
+          <p className="laptop-text-13 text-[10px] text-muted-dark uppercase tracking-wider mb-3">{ai.pipeline}</p>
           <div className="ai-full-flow flex flex-wrap items-center gap-2">
             {ai.nodes.map((node, i) => (
               <div key={i} className="flex items-center">
-                <div className="relative px-3 py-2.5 rounded-lg bg-surface border border-border/40 text-xs md:text-sm font-medium text-text whitespace-nowrap hover:border-accent/30 transition-colors group">
+                <div className="laptop-text-15 relative px-3 py-2.5 rounded-lg bg-surface border border-border/40 text-xs md:text-sm font-medium text-text whitespace-nowrap hover:border-accent/30 transition-colors group">
                   <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-accent/50 group-hover:bg-accent transition-colors" />
                   {node}
                 </div>
@@ -68,7 +68,7 @@ export function AIInside() {
           <div className="ai-laptop-flow hidden flex-wrap items-center gap-2">
             {laptopNodeGroups.map((group, i) => (
               <div key={i} className="flex items-center">
-                <div className="relative px-3 py-2.5 rounded-lg bg-surface border border-border/40 text-sm font-medium text-text whitespace-nowrap">
+                <div className="laptop-text-15 relative px-3 py-2.5 rounded-lg bg-surface border border-border/40 text-sm font-medium text-text whitespace-nowrap">
                   <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-accent/50" />
                   {group.join(" & ")}
                 </div>
@@ -86,24 +86,24 @@ export function AIInside() {
         {/* Caps + Events */}
         <div className="border-t border-border/20 grid grid-cols-1 md:grid-cols-2">
           <div className="ai-panel-column p-5 md:p-6 border-b md:border-b-0 md:border-r border-border/20">
-            <p className="text-[10px] text-muted-dark uppercase tracking-wider mb-3">{ai.capsTitle}</p>
+            <p className="laptop-text-13 text-[10px] text-muted-dark uppercase tracking-wider mb-3">{ai.capsTitle}</p>
             <div className="grid grid-cols-2 gap-2">
               {ai.caps.map((cap, i) => (
                 <div key={i} className={`ai-capability-card p-3 rounded-lg border ${capColors[i]}`}>
-                  <p className="text-xs font-semibold">{cap.label}</p>
+                  <p className="laptop-text-13 text-xs font-semibold">{cap.label}</p>
                   <p className="ai-capability-description text-[10px] mt-1 opacity-70">{cap.desc}</p>
                 </div>
               ))}
             </div>
           </div>
           <div className="ai-panel-column p-5 md:p-6">
-            <p className="text-[10px] text-muted-dark uppercase tracking-wider mb-3">{ai.liveTitle}</p>
+            <p className="laptop-text-13 text-[10px] text-muted-dark uppercase tracking-wider mb-3">{ai.liveTitle}</p>
             <div className="ai-event-list space-y-2.5">
               {ai.events.map((event, i) => (
                 <div key={i} className="ai-event flex items-center gap-3 p-2.5 rounded-lg bg-primary/40 border border-border/20">
                   <span className="text-sm">{event.icon}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[11px] text-text truncate">{event.text}</p>
+                    <p className="laptop-text-13 text-[11px] text-text truncate">{event.text}</p>
                     <p className="text-[9px] text-muted-dark">{event.time}</p>
                   </div>
                   <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${eventStatus[i]}`} />

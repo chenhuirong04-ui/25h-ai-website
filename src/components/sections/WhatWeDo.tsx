@@ -25,7 +25,7 @@ function ProcessRedesignVisual({ t }: { t: Translations }) {
           <div className="flex items-center gap-1 flex-wrap">
             {cap.steps.map((step: string, i: number) => (
               <div key={i} className="flex items-center">
-                <div className="px-2 py-1 rounded-md bg-accent/10 border border-accent/20 text-[9px] text-accent font-medium">{step}</div>
+                <div className="laptop-text-10 px-2 py-1 rounded-md bg-accent/10 border border-accent/20 text-[9px] text-accent font-medium">{step}</div>
                 {i < cap.steps.length - 1 && (<svg className="w-3 h-3 text-accent/40 mx-0.5 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>)}
               </div>
             ))}
@@ -47,7 +47,7 @@ function DigitalOpsVisual({ t }: { t: Translations }) {
       <div className="flex flex-wrap items-center justify-center gap-2 mb-4">
         {cap.modules.map((mod: string, i: number) => (
           <div key={i} className="flex items-center">
-            <div className={`px-3 py-1.5 rounded-lg border text-[10px] font-medium text-text ${["bg-accent/15 border-accent/25", "bg-tech/15 border-tech/25", "bg-purple-500/15 border-purple-500/25", "bg-accent/15 border-accent/25", "bg-highlight/15 border-highlight/25"][i]}`}>{mod}</div>
+            <div className={`laptop-text-11 px-3 py-1.5 rounded-lg border text-[10px] font-medium text-text ${["bg-accent/15 border-accent/25", "bg-tech/15 border-tech/25", "bg-purple-500/15 border-purple-500/25", "bg-accent/15 border-accent/25", "bg-highlight/15 border-highlight/25"][i]}`}>{mod}</div>
             {i < cap.modules.length - 1 && (<svg className="w-3 h-3 text-accent/30 mx-1" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>)}
           </div>
         ))}
@@ -74,7 +74,7 @@ function AIAutomationVisual({ t }: { t: Translations }) {
       <div className="flex items-center gap-1 flex-wrap">
         {cap.steps.map((step: string, i: number) => (
           <div key={i} className="flex items-center">
-            <div className={`flex items-center gap-1.5 px-2.5 py-2 rounded-lg border text-[10px] font-medium ${i === 1 ? "bg-accent/15 border-accent/30 text-accent" : "bg-surface-card border-border/30 text-text"}`}>
+            <div className={`laptop-text-11 flex items-center gap-1.5 px-2.5 py-2 rounded-lg border text-[10px] font-medium ${i === 1 ? "bg-accent/15 border-accent/30 text-accent" : "bg-surface-card border-border/30 text-text"}`}>
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">{icons[i]}</svg>
               {step}
             </div>
@@ -99,7 +99,7 @@ function IndustrySolutionsVisual({ t }: { t: Translations }) {
         {cap.industries.map((ind: string, i: number) => (
           <div key={i} className="flex flex-col items-center gap-1.5 p-2.5 rounded-lg bg-surface-card/50 border border-border/20 hover:border-accent/20 transition-colors">
             <span className="text-base">{emojis[i]}</span>
-            <span className="text-[9px] text-text-dim">{ind}</span>
+            <span className="laptop-text-10 text-[9px] text-text-dim">{ind}</span>
           </div>
         ))}
       </div>
@@ -136,7 +136,7 @@ export function WhatWeDo() {
                   <span className="text-2xl font-bold text-accent/15 tabular-nums">{String(i + 1).padStart(2, "0")}</span>
                   <h3 className="text-lg font-semibold text-white group-hover:text-accent transition-colors">{cap.title}</h3>
                 </div>
-                <p className="text-sm text-muted leading-relaxed">{cap.desc}</p>
+                <p className="laptop-text-15 text-sm text-muted leading-relaxed">{cap.desc}</p>
               </div>
             </div>
           );

@@ -88,11 +88,11 @@ export function Problem() {
               <div key={i} className={`problem-module ${i === 3 || i === 7 ? "problem-module--secondary" : ""} rounded-xl border border-border/30 bg-surface-card/40 overflow-hidden ${i % 2 === 1 ? "md:mt-5" : ""} ${i >= 4 && i % 2 === 0 ? "md:mt-3" : ""}`}>
                 <div className="flex items-center gap-2 px-3 py-2 bg-white/[0.02] border-b border-border/20">
                   <span className={`w-1.5 h-1.5 rounded-full ${i === 2 || i === 7 ? "bg-red-400" : "bg-white/20"}`} />
-                  <span className="text-[10px] font-medium text-text-dim">{mod.label}</span>
+                  <span className="laptop-text-13 text-[10px] font-medium text-text-dim">{mod.label}</span>
                 </div>
                 <div className="p-3">
                   <ModuleVisual type={mod.type} />
-                  <p className="text-[9px] text-muted-dark mt-2">{mod.sub}</p>
+                  <p className="laptop-text-12 text-[9px] text-muted-dark mt-2">{mod.sub}</p>
                 </div>
               </div>
             ))}

@@ -36,8 +36,8 @@ export function Transform() {
                 {icons[i]}
                 {i === 3 && <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-accent animate-pulse-dot" />}
               </div>
-              <h3 className="text-sm font-semibold text-white mb-1">{step.label}</h3>
-              <p className="text-[11px] text-muted leading-relaxed">{step.desc}</p>
+              <h3 className="laptop-text-15 text-sm font-semibold text-white mb-1">{step.label}</h3>
+              <p className="laptop-text-12 text-[11px] text-muted leading-relaxed">{step.desc}</p>
             </div>
           ))}
         </div>
