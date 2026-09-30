@@ -80,8 +80,8 @@ export function BuiltFromOps() {
   }, []);
 
   return (
-    <Section>
-      <div className="mb-16">
+    <Section className="built-section">
+      <div className="section-heading mb-16">
         <p className="text-xs font-semibold tracking-wider uppercase text-accent mb-4">{b.tag}</p>
         <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white max-w-2xl">
           {b.titleA} <span className="text-accent">{b.titleB}</span>

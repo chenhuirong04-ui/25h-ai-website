@@ -9,12 +9,12 @@ export function Hero() {
   const { open: openContact } = useContactModal();
 
   return (
-    <section className="relative pt-28 md:pt-36 pb-20 md:pb-28 overflow-hidden">
+    <section className="hero-section relative pt-28 md:pt-36 pb-20 md:pb-28 overflow-hidden">
       <div className="absolute top-1/4 right-1/4 w-[700px] h-[700px] rounded-full bg-accent/[0.04] blur-[150px] pointer-events-none" />
       <div className="absolute bottom-1/4 left-1/6 w-[500px] h-[400px] rounded-full bg-tech/[0.03] blur-[120px] pointer-events-none" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+        <div className="hero-layout grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           <div className="lg:col-span-5">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-accent/20 bg-accent/[0.06] mb-8">
               <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse-dot" />
@@ -66,7 +66,7 @@ export function Hero() {
               </svg>
 
               {/* Browser Window */}
-              <div className="rounded-xl border border-border/60 shadow-2xl shadow-accent/[0.06] overflow-hidden bg-surface-card">
+              <div className="hero-dashboard rounded-xl border border-border/60 shadow-2xl shadow-accent/[0.06] overflow-hidden bg-surface-card">
                 <div className="flex items-center gap-2 px-4 py-2.5 bg-surface-light border-b border-border/40">
                   <div className="flex gap-1.5">
                     <div className="w-3 h-3 rounded-full bg-red-500/50" />
@@ -80,8 +80,8 @@ export function Hero() {
                   </div>
                 </div>
 
-                <div className="flex bg-primary min-h-[320px] md:min-h-[400px]">
-                  <div className="hidden md:flex w-[170px] shrink-0 flex-col gap-1 p-3 border-r border-border/30 bg-surface/40">
+                <div className="hero-dashboard-body flex bg-primary min-h-[320px] md:min-h-[400px]">
+                  <div className="hero-dashboard-sidebar hidden md:flex w-[170px] shrink-0 flex-col gap-1 p-3 border-r border-border/30 bg-surface/40">
                     {t.hero.dashNav.map((item, i) => (
                       <div
                         key={i}
@@ -110,7 +110,7 @@ export function Hero() {
                     </div>
                   </div>
 
-                  <div className="flex-1 p-4 md:p-5 space-y-4">
+                  <div className="hero-dashboard-content flex-1 p-4 md:p-5 space-y-4">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
                       {t.hero.dashMetrics.map((m) => (
                         <div key={m.label} className="bg-surface-card rounded-lg p-3 border border-border/40">
@@ -123,7 +123,7 @@ export function Hero() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       <div className="md:col-span-2 bg-surface-card rounded-lg p-3 border border-border/40">
                         <p className="text-[10px] font-medium text-muted-dark mb-2">{t.hero.dashOpsChart}</p>
-                        <div className="flex items-end gap-1.5 h-24 md:h-28">
+                        <div className="hero-dashboard-chart flex items-end gap-1.5 h-24 md:h-28">
                           {[35, 58, 42, 75, 50, 88, 65, 80, 55, 72, 48, 82].map((h, i) => (
                             <div key={i} className="flex-1 rounded-sm" style={{ height: `${h}%`, backgroundColor: i === 7 || i === 11 ? "#00B4FF" : "rgba(0,180,255,0.3)" }} />
                           ))}
@@ -147,7 +147,7 @@ export function Hero() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      <div className="bg-surface-card rounded-lg p-3 border border-border/40">
+                      <div className="hero-dashboard-secondary bg-surface-card rounded-lg p-3 border border-border/40">
                         <p className="text-[10px] font-medium text-muted-dark mb-2">{t.hero.dashTasksTitle}</p>
                         <div className="space-y-2">
                           {t.hero.dashTasks.map((task, i) => (
@@ -160,7 +160,7 @@ export function Hero() {
                           ))}
                         </div>
                       </div>
-                      <div className="bg-surface-card rounded-lg p-3 border border-border/40">
+                      <div className="hero-dashboard-workflow bg-surface-card rounded-lg p-3 border border-border/40">
                         <p className="text-[10px] font-medium text-muted-dark mb-2">{t.hero.dashWorkflowTitle}</p>
                         <div className="space-y-2">
                           {t.hero.dashWorkflow.map((s, i) => (

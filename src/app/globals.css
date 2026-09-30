@@ -77,3 +77,261 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Laptop density layer: preserve the full desktop composition at 1800px+ while
+   giving standard laptops and shorter desktop viewports a clearer hierarchy. */
+@media (min-width: 1200px) and (max-width: 1799px),
+  (min-width: 1024px) and (max-height: 900px) {
+  .hero-section {
+    padding-top: 6.5rem;
+    padding-bottom: 4rem;
+  }
+
+  .hero-layout {
+    column-gap: 2.25rem;
+  }
+
+  .hero-dashboard-body {
+    min-height: 21.25rem;
+  }
+
+  .hero-dashboard-content {
+    row-gap: 0.75rem;
+  }
+
+  .hero-dashboard-chart {
+    height: 6rem;
+  }
+
+  .hero-dashboard-sidebar,
+  .hero-dashboard-secondary {
+    display: none;
+  }
+
+  .hero-dashboard-workflow {
+    grid-column: 1 / -1;
+  }
+
+  .hero-dashboard [class~="text-[9px]"] {
+    font-size: 0.6875rem;
+    line-height: 0.875rem;
+  }
+
+  .hero-dashboard [class~="text-[10px]"] {
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+
+  .hero-dashboard [class~="text-[11px]"] {
+    font-size: 0.8125rem;
+    line-height: 1rem;
+  }
+
+  .problem-section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  .problem-heading {
+    margin-bottom: 2.25rem;
+  }
+
+  .problem-visual {
+    min-height: 0;
+    padding: 1.25rem;
+  }
+
+  .problem-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.875rem;
+  }
+
+  .problem-module {
+    margin-top: 0;
+  }
+
+  .problem-module--secondary,
+  .problem-connectors,
+  .problem-center {
+    display: none;
+  }
+
+  .problem-errors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    margin-top: 1rem;
+  }
+
+  .problem-error {
+    position: static;
+    inset: auto !important;
+  }
+
+  .problem-error:nth-child(n + 4) {
+    display: none;
+  }
+
+  .problem-visual [class~="text-[9px]"] {
+    font-size: 0.6875rem;
+    line-height: 0.875rem;
+  }
+
+  .problem-visual [class~="text-[10px]"] {
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+
+  .problem-stats {
+    margin-top: 2rem;
+  }
+
+  .ai-section {
+    padding-top: 4.5rem;
+    padding-bottom: 4.5rem;
+  }
+
+  .ai-heading {
+    margin-bottom: 2rem;
+  }
+
+  .ai-panel-header {
+    padding-block: 0.75rem;
+  }
+
+  .ai-pipeline,
+  .ai-panel-column {
+    padding: 1.25rem;
+  }
+
+  .ai-full-flow {
+    display: none;
+  }
+
+  .ai-laptop-flow {
+    display: flex;
+  }
+
+  .ai-capability-description {
+    display: none;
+  }
+
+  .ai-capability-card {
+    padding: 0.75rem;
+  }
+
+  .ai-event-list {
+    row-gap: 0.5rem;
+  }
+
+  .ai-event:nth-child(n + 4) {
+    display: none;
+  }
+
+  .ai-panel [class~="text-[10px]"] {
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+
+  .ai-panel [class~="text-[11px]"] {
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+
+  .industries-section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  .industries-heading {
+    margin-bottom: 3rem;
+  }
+
+  .industry-card-header {
+    padding: 0.875rem 1rem;
+  }
+
+  .industry-metrics {
+    padding: 0.75rem 1rem;
+  }
+
+  .industry-metric {
+    padding: 0.5rem;
+  }
+
+  .industry-statuses {
+    padding: 0 1rem 0.75rem;
+  }
+
+  .industry-status:nth-child(n + 3) {
+    display: none;
+  }
+
+  .industries-grid {
+    gap: 1rem;
+  }
+
+  .industry-card [class~="text-[8px]"],
+  .industry-card [class~="text-[9px]"] {
+    font-size: 0.6875rem;
+    line-height: 0.875rem;
+  }
+
+  .industry-card [class~="text-[11px]"] {
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+}
+
+@media (min-width: 1024px) and (max-height: 900px) {
+  .ai-event:nth-child(n + 3) {
+    display: none;
+  }
+}
+
+/* Desktop height rhythm: wide laptop panels can report a desktop-class width
+   while still having limited vertical room. Keep their full-width composition,
+   but remove the large empty transitions between meaningful content. */
+@media (min-width: 1024px) and (max-height: 1100px) {
+  .site-section,
+  .problem-section,
+  .final-cta-section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .section-heading,
+  .problem-heading,
+  .ai-heading,
+  .industries-heading {
+    margin-bottom: 2.25rem;
+  }
+
+  .hero-section {
+    padding-top: 6.5rem;
+    padding-bottom: 3.5rem;
+  }
+
+  .problem-visual {
+    min-height: 0;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .problem-stats {
+    margin-top: 1.5rem;
+  }
+
+  .built-section .section-heading {
+    margin-bottom: 2rem;
+  }
+
+  .final-cta-subtitle {
+    margin-top: 1rem;
+  }
+
+  .final-cta-action,
+  .final-cta-contact {
+    margin-top: 1.75rem;
+  }
+}

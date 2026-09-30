@@ -118,7 +118,7 @@ export function WhatWeDo() {
 
   return (
     <Section id="capabilities" variant="elevated">
-      <div className="mb-16">
+      <div className="section-heading mb-16">
         <p className="text-xs font-semibold tracking-wider uppercase text-accent mb-4">{t.capabilities.tag}</p>
         <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white max-w-xl">
           {t.capabilities.titleA} <span className="text-accent">{t.capabilities.titleB}</span>

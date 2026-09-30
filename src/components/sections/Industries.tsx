@@ -13,12 +13,12 @@ const statusColors: Record<string, { dot: string; text: string; bg: string }> = 
 function IndustryCard({ item, featured }: { item: any; featured?: boolean }) {
   return (
     <div
-      className={`rounded-2xl border border-border/30 bg-surface-card/40 overflow-hidden hover:border-accent/25 hover:shadow-[0_0_25px_rgba(0,180,255,0.06)] transition-all duration-300 ${
+      className={`industry-card rounded-2xl border border-border/30 bg-surface-card/40 overflow-hidden hover:border-accent/25 hover:shadow-[0_0_25px_rgba(0,180,255,0.06)] transition-all duration-300 ${
         featured ? "md:col-span-2" : ""
       }`}
     >
       {/* Header */}
-      <div className="px-5 py-4 border-b border-border/20 bg-accent/[0.02]">
+      <div className="industry-card-header px-5 py-4 border-b border-border/20 bg-accent/[0.02]">
         <div className="flex items-center justify-between">
           <div>
             <h3 className={`font-semibold text-white ${featured ? "text-lg" : "text-base"}`}>
@@ -34,10 +34,10 @@ function IndustryCard({ item, featured }: { item: any; featured?: boolean }) {
       </div>
 
       {/* Metrics Row */}
-      <div className="px-5 py-4">
+      <div className="industry-metrics px-5 py-4">
         <div className="grid grid-cols-3 gap-2">
           {item.metrics.map((m: any, i: number) => (
-            <div key={i} className="bg-primary/60 rounded-lg p-2.5 border border-border/20">
+            <div key={i} className="industry-metric bg-primary/60 rounded-lg p-2.5 border border-border/20">
               <p className="text-[9px] text-muted-dark uppercase tracking-wider">{m.label}</p>
               <p className={`text-base font-bold mt-0.5 ${m.alert ? "text-red-400" : "text-text"}`}>
                 {m.value}
@@ -54,12 +54,12 @@ function IndustryCard({ item, featured }: { item: any; featured?: boolean }) {
       </div>
 
       {/* Status Row */}
-      <div className="px-5 pb-4">
+      <div className="industry-statuses px-5 pb-4">
         <div className="space-y-1.5">
           {item.statuses.map((s: any, i: number) => {
             const c = statusColors[s.color] || statusColors.blue;
             return (
-              <div key={i} className="flex items-center justify-between py-1">
+              <div key={i} className="industry-status flex items-center justify-between py-1">
                 <div className="flex items-center gap-2">
                   <span className={`w-1.5 h-1.5 rounded-full ${c.dot}`} />
                   <span className="text-[11px] text-muted">{s.label}</span>
@@ -81,8 +81,8 @@ export function Industries() {
   const ind = t.industries;
 
   return (
-    <Section id="industries" variant="elevated">
-      <div className="mb-16">
+    <Section id="industries" variant="elevated" className="industries-section">
+      <div className="industries-heading mb-16">
         <p className="text-xs font-semibold tracking-wider uppercase text-accent mb-4">{ind.tag}</p>
         <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white max-w-2xl">
           {ind.titleA} <span className="text-accent">{ind.titleB}</span>
@@ -90,7 +90,7 @@ export function Industries() {
         <p className="mt-4 text-lg text-muted max-w-2xl">{ind.subtitle}</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="industries-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {ind.items.map((item: any, i: number) => (
           <IndustryCard key={i} item={item} featured={i === 0} />
         ))}

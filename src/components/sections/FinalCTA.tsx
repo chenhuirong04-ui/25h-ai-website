@@ -8,7 +8,7 @@ export function FinalCTA() {
   const { open: openContact } = useContactModal();
 
   return (
-    <section id="contact" className="relative py-20 md:py-28 bg-[#060A14] border-t border-border/20 scroll-mt-20 overflow-hidden">
+    <section id="contact" className="final-cta-section relative py-20 md:py-28 bg-[#060A14] border-t border-border/20 scroll-mt-20 overflow-hidden">
       {/* Background network */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full bg-accent/[0.03] blur-[130px] pointer-events-none" />
       <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.05]" viewBox="0 0 800 500" fill="none">
@@ -33,9 +33,9 @@ export function FinalCTA() {
         <h2 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight text-white">
           {t.cta.titleA} <span className="text-accent">{t.cta.titleB}</span>
         </h2>
-        <p className="mt-6 text-lg md:text-xl text-muted leading-relaxed">{t.cta.subtitle}</p>
+        <p className="final-cta-subtitle mt-6 text-lg md:text-xl text-muted leading-relaxed">{t.cta.subtitle}</p>
 
-        <div className="mt-10">
+        <div className="final-cta-action mt-10">
           <button
             type="button"
             onClick={openContact}
@@ -47,7 +47,7 @@ export function FinalCTA() {
         </div>
 
         {/* Contact strip */}
-        <div className="mt-10 inline-flex flex-col sm:flex-row items-center gap-5 sm:gap-8 px-6 py-4 rounded-xl border border-border/20 bg-surface-card/30 backdrop-blur-sm">
+        <div className="final-cta-contact mt-10 inline-flex flex-col sm:flex-row items-center gap-5 sm:gap-8 px-6 py-4 rounded-xl border border-border/20 bg-surface-card/30 backdrop-blur-sm">
           <a href={`https://${t.cta.website}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-muted hover:text-accent transition-colors">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5a17.92 17.92 0 01-8.716-2.247m0 0A8.966 8.966 0 013 12c0-1.264.26-2.467.732-3.558" /></svg>
             {t.cta.website}

@@ -17,7 +17,7 @@ export function Transform() {
 
   return (
     <Section id="how" variant="deep">
-      <div className="mb-16">
+      <div className="section-heading mb-16">
         <p className="text-xs font-semibold tracking-wider uppercase text-accent mb-4">{t.process.tag}</p>
         <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white">{t.process.title}</h2>
         <p className="mt-4 text-lg text-muted max-w-2xl">{t.process.subtitle}</p>
